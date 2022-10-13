@@ -4,9 +4,9 @@ const authorForm = document.querySelector("#authorForm");
 const isbnForm = document.querySelector("#isbnForm");
 const masterTable = document.querySelector('#masterTable')
 
-
 masterTable.addEventListener('click', deleteBook)
 form.addEventListener('submit', addBook)
+document.addEventListener("DOMContentLoaded", getBooks)
 
 function addBook(event){
     const row = masterTable.insertRow()
@@ -70,8 +70,6 @@ function deleteBookLS(book){
         books = JSON.parse(localStorage.getItem("books"))
     }
     books.forEach((bookLS, bookIndex) => {
-        console.log(bookLS)
-        console.log(book)
         const sbookLS = JSON.stringify(bookLS)
         const sbook = JSON.stringify(book)
         if(sbookLS === sbook){
@@ -79,4 +77,33 @@ function deleteBookLS(book){
         }
     })
     localStorage.setItem('books', JSON.stringify(books))
+}
+
+function getBooks(){
+    let books
+    if(localStorage.getItem('books') === null){
+        books = []
+    } else {
+        books = JSON.parse(localStorage.getItem('books'))
+    }
+    books.forEach((book) => {
+        console.log(book)
+
+        const getRow = masterTable.insertRow()
+
+        const getCell1 = getRow.insertCell()
+        const getCell2 = getRow.insertCell()
+        const getCell3 = getRow.insertCell()
+        const getCell4 = getRow.insertCell()
+
+        const getCross = document.createElement('a')
+        getCross.appendChild(document.createTextNode('❌'))
+        getCross.className = 'red-text text-darken-2 secondary-content'
+        getCross.setAttribute('href', '#')
+
+        getCell1.innerHTML = book[0].toString()
+        getCell2.innerHTML = book[1].toString()
+        getCell3.innerHTML = book[2].toString()
+        getCell4.appendChild(getCross)
+    })
 }
