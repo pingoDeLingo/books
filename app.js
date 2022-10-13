@@ -4,6 +4,7 @@ const authorForm = document.querySelector("#authorForm");
 const isbnForm = document.querySelector("#isbnForm");
 const masterTable = document.querySelector('#masterTable')
 
+
 masterTable.addEventListener('click', deleteBook)
 form.addEventListener('submit', addBook)
 
@@ -16,7 +17,7 @@ function addBook(event){
     const cell4 = row.insertCell()
 
     const cross = document.createElement('a')
-    cross.appendChild(document.createTextNode('❌')) // change to X
+    cross.appendChild(document.createTextNode('❌'))
     cross.className = 'red-text text-darken-2 secondary-content'
     cross.setAttribute('href', '#')
 
@@ -36,11 +37,16 @@ function addBook(event){
 function deleteBook(event){
     let selectedBook
 
+    let name = event.target.parentElement.parentElement.children[0].innerText
+    let author = event.target.parentElement.parentElement.children[1].innerText
+    let ISBN = event.target.parentElement.parentElement.children[2].innerText
+    let selectedBookLS = [name, author, ISBN]
+
     if (event.target.textContent === "❌") {
         if (confirm("Are you sure you want to remove the book?")) {
             selectedBook = event.target.parentElement.parentElement.rowIndex
             masterTable.deleteRow(selectedBook)
-            deleteTaskLS(event.target.parentElement.textContent.slice(0,-1))
+            deleteBookLS(selectedBookLS)
         }
     }
 }
@@ -56,16 +62,19 @@ function addBookLS(book){
     localStorage.setItem("books", JSON.stringify(books))
 }
 
-function deleteTaskLS(book) {
+function deleteBookLS(book){
     let books
-    if(localStorage.getItem('books') === null){
+    if (localStorage.getItem("books") === null){
         books = []
     } else {
-        books = JSON.parse(localStorage.getItem('books'))
+        books = JSON.parse(localStorage.getItem("books"))
     }
     books.forEach((bookLS, bookIndex) => {
-        if(bookLS === book){
-            console.log(books[bookIndex])
+        console.log(bookLS)
+        console.log(book)
+        const sbookLS = JSON.stringify(bookLS)
+        const sbook = JSON.stringify(book)
+        if(sbookLS === sbook){
             books.splice(bookIndex, 1)
         }
     })
