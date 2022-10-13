@@ -47,9 +47,7 @@ input[type="text"], input[type="email"], textarea {
     border: 1px solid #ccc;
     outline: none;
 }
-input.invalid, textarea.invalid {
-    border-color: #d5144d;
-}
+
 textarea {
     height: 6em;
 }
